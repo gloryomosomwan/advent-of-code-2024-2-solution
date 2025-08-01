@@ -1,22 +1,29 @@
-import { readFile } from 'node:fs'
+import * as readline from 'node:readline';
+import { createReadStream } from 'node:fs';
 
-readFile('./input.txt', (err, data) => {
-  if (err) throw err;
-  let dataString: string = data.toString()
-  let dataStringArray: Array<string> = dataString.split('\n')
+async function calculateSafeReports() {
+  const stream = createReadStream('./input.txt');
+
+  const rl = readline.createInterface({
+    input: stream,
+    crlfDelay: Infinity
+  });
+
   let numOfSafeReports = 0
-  for (const line of dataStringArray) {
-    let reportStringArray = line.split(' ')
-    let report: Array<number> = [];
-    for (const levelString in reportStringArray) {
-      report.push(Number(levelString))
+
+  for await (const line of rl) {
+    let rawReport = line.split(' ')
+    let report: Array<number> = []
+    for (const level of rawReport) {
+      report.push(Number(level))
     }
-    if (checkSafety(report) === true) {
-      numOfSafeReports += 1
-    }
+    if (checkSafety(report)) numOfSafeReports += 1
   }
-  console.log(numOfSafeReports)
-});
+
+  console.log(`There are ${numOfSafeReports} safe reports.`)
+}
+
+calculateSafeReports()
 
 function checkSafety(report: Array<number>): boolean {
   let order: undefined | string = undefined
