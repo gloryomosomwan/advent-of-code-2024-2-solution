@@ -34,11 +34,13 @@ function checkSafety(report: Array<number>): boolean {
       }
       else {
         isSafe = false
+        return isSafe
       }
     }
     else {
       if (order === 'asc' && report[i] >= report[i + 1] || order === 'desc' && report[i] <= report[i + 1]) {
         isSafe = false
+        return isSafe
       }
     }
 
@@ -46,6 +48,7 @@ function checkSafety(report: Array<number>): boolean {
 
     if (difference < 1 || difference > 3) {
       isSafe = false
+      return isSafe
     }
   }
   return isSafe
