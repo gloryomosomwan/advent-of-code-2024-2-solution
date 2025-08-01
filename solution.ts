@@ -2,16 +2,16 @@ import { readFile } from 'node:fs'
 
 readFile('./input.txt', (err, data) => {
   if (err) throw err;
-  let reports: string = data.toString()
-  let reportsArray: Array<string> = reports.split('\n')
+  let dataString: string = data.toString()
+  let dataStringArray: Array<string> = dataString.split('\n')
   let numOfSafeReports = 0
-  for (const line of reportsArray) {
-    let reportArr = line.split(' ')
-    let newArr: Array<number> = [];
-    for (const s in reportArr) {
-      newArr.push(Number(s))
+  for (const line of dataStringArray) {
+    let reportStringArray = line.split(' ')
+    let report: Array<number> = [];
+    for (const levelString in reportStringArray) {
+      report.push(Number(levelString))
     }
-    if (checkSafety(newArr) === true) {
+    if (checkSafety(report) === true) {
       numOfSafeReports += 1
     }
   }
